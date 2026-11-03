@@ -1,0 +1,84 @@
+{
+  "updatedAt": "2026-11-03",
+  "media": [
+    {
+      "type": "video",
+      "src": "/galerie/run-0111-awbg.mp4",
+      "poster": "/galerie/run-0111-awbg-poster.webp",
+      "width": 720,
+      "height": 1280,
+      "duration": 19.07,
+      "caption": "Gemeinsam loslaufen an der Orangerie"
+    },
+    {
+      "type": "video",
+      "src": "/galerie/run-0111-awbw.mp4",
+      "poster": "/galerie/run-0111-awbw-poster.webp",
+      "width": 720,
+      "height": 1280,
+      "duration": 8.21,
+      "caption": "Laufrunde durch die Karlsaue"
+    },
+    {
+      "type": "video",
+      "src": "/galerie/run-0111-awca.mp4",
+      "poster": "/galerie/run-0111-awca-poster.webp",
+      "width": 720,
+      "height": 1280,
+      "duration": 10.86,
+      "caption": "Gemeinsam unterwegs"
+    },
+    {
+      "type": "video",
+      "src": "/galerie/run-0111-awcq.mp4",
+      "poster": "/galerie/run-0111-awcq-poster.webp",
+      "width": 720,
+      "height": 1280,
+      "duration": 2.58,
+      "caption": "Ein Moment auf der Laufstrecke"
+    },
+    {
+      "type": "video",
+      "src": "/galerie/run-0111-awcg.mp4",
+      "poster": "/galerie/run-0111-awcg-poster.webp",
+      "width": 720,
+      "height": 1280,
+      "duration": 2.81,
+      "caption": "Die Crew an der Orangerie"
+    },
+    {
+      "type": "video",
+      "src": "/galerie/run-0111-awcw.mp4",
+      "poster": "/galerie/run-0111-awcw-poster.webp",
+      "width": 720,
+      "height": 1280,
+      "duration": 5.5,
+      "caption": "Gemeinsames Training im Freien"
+    },
+    {
+      "type": "video",
+      "src": "/galerie/run-0111-awdq.mp4",
+      "poster": "/galerie/run-0111-awdq-poster.webp",
+      "width": 720,
+      "height": 1280,
+      "duration": 5.97,
+      "caption": "Zusammen trainieren"
+    },
+    {
+      "type": "photo",
+      "src": "/galerie/run-0111-awda-1600.webp",
+      "thumb": "/galerie/run-0111-awda-640.webp",
+      "width": 480,
+      "height": 640,
+      "caption": "Getränke und Preise beim Community-Treffen"
+    },
+    {
+      "type": "photo",
+      "src": "/galerie/run-0111-awdg-1600.webp",
+      "thumb": "/galerie/run-0111-awdg-640.webp",
+      "width": 480,
+      "height": 640,
+      "caption": "Einblicke vom Community-Treffen"
+    }
+  ]
+}

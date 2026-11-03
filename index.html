@@ -107,7 +107,48 @@ html{scroll-padding-top:calc(var(--header-height,130px) + 16px)}
 @media(min-width:2000px){.hero-grid{grid-template-columns:46% 54%}}
 @media(max-width:700px){.hero h1{font-size:clamp(36px,10.3vw,70px);margin:23px 0 22px;line-height:1.08}.hero-location{font-size:clamp(18px,4.8vw,25px)}.hero-photo{width:min(100%,480px);margin-left:auto}.hero-logo-bar{padding:10px 14px}.hero-logo-bar .brand-name{font-size:12px}.hero-logo-bar .brand-name small{font-size:8px}.hero-photo .hero-logo-bar .brand-logo{width:58px}}
 </style>
-</head>
+<style>
+/* Navigation and paired community portraits */
+.header{background:#0b0b0bf5;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.header .nav{min-height:108px;gap:20px}
+.header .brand{gap:14px;flex-shrink:0}
+.header .brand-logo{mix-blend-mode:screen;width:84px;height:84px}
+.header .brand-name{font-size:15px}
+.header .brand-name small{font-size:10px}
+.header .nav-links{gap:8px;font-size:15px}
+.header .nav-links a,.header .mobile-pages a{justify-content:center;position:relative;border:1px solid #ffffff26;background:#ffffff05;border-radius:10px;min-height:50px;padding:12px 18px;font-weight:500;transition:background .2s,border-color .2s,transform .2s}
+.header .nav-links a:hover,.header .mobile-pages a:hover{background:#ffffff13;border-color:#ffffff65;transform:translateY(-2px);color:#fff}
+.header .nav-links a:focus-visible,.header .mobile-pages a:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.header .nav-join{font-size:13px;min-height:50px;padding:14px 18px;border-radius:10px}
+.hero-media{display:grid;grid-template-columns:.72fr 1fr;align-items:center;gap:12px;min-width:0;padding:24px 16px 24px 0}
+.hero-media .hero-photo{width:100%;margin:0;align-self:center;justify-self:stretch}
+.hero-companion{margin:0;min-width:0;overflow:hidden;align-self:center}
+.hero-companion img{display:block;width:100%;height:auto;aspect-ratio:1152/2048;object-fit:cover;object-position:50% 50%;filter:grayscale(1);border-radius:2px}
+@media(min-width:1151px){html{scroll-padding-top:125px}}
+@media(max-width:1150px){
+.header .nav-links{display:none}
+.header .mobile-pages{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:0 24px 14px;font-size:14px;max-width:850px;margin:auto}
+.header .mobile-pages a{padding:10px 12px;min-height:46px}
+html{scroll-padding-top:185px}
+}
+@media(max-width:700px){
+.header .nav{min-height:85px;gap:8px}
+.header .brand-logo{width:64px;height:64px}
+.header .brand-name{font-size:12px;letter-spacing:.09em}
+.header .brand-name small{font-size:8px;margin-top:5px}
+.header .nav-end .icon-link{display:none}
+.header .nav-join{font-size:11px;min-height:44px;padding:10px 12px}
+.header .mobile-pages{gap:6px;padding:0 16px 12px;font-size:12px}
+.header .mobile-pages a{padding:10px 4px;min-height:44px;border-radius:8px}
+.hero-media{width:100%;padding:0 16px 20px;gap:8px;grid-template-columns:.72fr 1fr}
+.hero-media .hero-photo{width:100%;max-width:none}
+.hero-photo .photo-index{font-size:7px;padding:6px;right:6px;top:8px}
+.hero-photo figcaption{font-size:7px;padding:8px}
+html{scroll-padding-top:155px}
+}
+@media(max-width:360px){.header .brand-name small{display:none}.header .brand-name{font-size:10px}.header .nav-join{padding:9px;font-size:10px}}
+@media(prefers-reduced-motion:reduce){.header .nav-links a,.header .mobile-pages a{transition:none;transform:none}}
+</style></head>
 <body>
 <a class="skip" href="#main">Zum Inhalt</a>
 <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true"><defs>
@@ -141,13 +182,12 @@ html{scroll-padding-top:calc(var(--header-height,130px) + 16px)}
         <div class="hero-utility"><a class="text-link" href="#programm">Dein nächster Sonntag ↓</a><a class="text-link" href="https://www.tiktok.com/@kasselunited?lang=en" data-link="tiktok" target="_blank" rel="noopener noreferrer"><svg class="icon" aria-hidden="true"><use href="#i-tiktok"/></svg>Auch auf TikTok</a></div>
         <p class="hero-meeting"><strong>Sonntags · 16 Uhr</strong> · Orangerie Kassel</p>
       </div>
-      <figure class="hero-photo">
+      <div class="hero-media"><figure class="hero-companion"><img src="/galerie/community-4-640.webp" srcset="/galerie/community-4-640.webp 640w, /galerie/community-4-1600.webp 1600w" sizes="(max-width:700px) 40vw, 23vw" width="640" height="959" alt="Kassel-United-Community gemeinsam vor der Orangerie in Kassel" decoding="async"></figure>      <figure class="hero-photo">
         <img class="hero-photo-image" src="assets/zein-ensar-bw-1152.webp" srcset="assets/zein-ensar-bw-480.webp 480w, assets/zein-ensar-bw-768.webp 768w, assets/zein-ensar-bw-1152.webp 1152w" sizes="(max-width:480px) 100vw, 480px" width="1152" height="2048" alt="Zwei lachende Community-Mitglieder mit einer Kamera vor der Orangerie in Kassel" fetchpriority="high">
         <!-- Future transparent 3D layer: .hero-model-layer, confined to this figure, z-index 1. -->
         <span class="photo-index" aria-hidden="true">KASSEL / UNITED</span>
-        <div class="hero-logo-bar"><img class="brand-logo" src="logo.webp" width="640" height="640" alt="Kassel United – Herkules-Logo"><span class="brand-name" aria-hidden="true">KASSEL UNITED<small>BEWEGUNG VERBINDET.</small></span></div>
         <figcaption><span>Von hier.</span>Für einander.</figcaption>
-      </figure>
+      </figure></div>
     </div>
   </section>
   <div class="ticker" aria-label="Unser Motto"><div class="ticker-window"><div class="ticker-track"><div class="ticker-copy"><b>MOVE TOGETHER. GROW TOGETHER.</b><i class="track-mark" aria-hidden="true"></i><span>KASSEL IST UNSER STARTPUNKT.</span><i class="track-mark" aria-hidden="true"></i></div><div class="ticker-copy" aria-hidden="true"><b>MOVE TOGETHER. GROW TOGETHER.</b><i class="track-mark"></i><span>KASSEL IST UNSER STARTPUNKT.</span><i class="track-mark"></i></div></div></div><button class="motion-toggle" id="motion-toggle" aria-label="Bewegungen pausieren" aria-pressed="false" type="button" hidden><svg class="icon pause" aria-hidden="true" viewBox="0 0 24 24"><path d="M9 5v14M15 5v14"/></svg><svg class="icon play" aria-hidden="true" viewBox="0 0 24 24"><path d="m8 4 12 8-12 8Z"/></svg></button></div>
@@ -297,3 +337,4 @@ if('IntersectionObserver' in window){
 <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
+
