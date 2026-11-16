@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b0b0b">
+  <title>Castle United Fight Night · Kämpferanmeldung</title>
+  <meta name="description" content="Castle United Fight Night ist für Mitte Dezember geplant. Boxen, Kickboxen, MMA und ein einzelner Ringkampf. Melde dich als Kämpfer per E-Mail an.">
+  <link rel="canonical" href="https://www.kassel-united.de/fight-night">
+  <link rel="icon" href="/favicon.webp">
+  <meta property="og:title" content="Castle United Fight Night">
+  <meta property="og:description" content="Mitte Dezember geplant. Drei Gewichtsklassen. Kämpferanmeldung geöffnet.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.kassel-united.de/fight-night">
+  <meta property="og:image" content="https://www.kassel-united.de/social-logo.jpg">
+  <link rel="stylesheet" href="/fight-night.css">
+  <script src="/fight-night.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Zum Inhalt</a>
+<header class="header">
+  <nav class="shell nav" aria-label="Hauptnavigation">
+    <a class="brand" href="/"><img src="/logo.webp" width="60" height="60" alt="">KASSEL UNITED</a>
+    <a class="back" href="/">Zur Startseite <span aria-hidden="true">↗</span></a>
+    <a class="nav-cta" href="#anmeldung">Als Kämpfer anmelden <span aria-hidden="true">↗</span></a>
+  </nav>
+</header>
+<main id="main">
+  <section class="hero shell" aria-labelledby="title">
+    <div class="hero-top"><p>CASTLE UNITED</p><p>MITTE DEZEMBER 2026 GEPLANT</p></div>
+    <h1 id="title">FIGHT<span>NIGHT<span class="title-dot">.</span></span></h1>
+    <div class="hero-bottom">
+      <p>Dein Training.<br>Dein Moment im Ring.</p>
+      <div><p class="muted">Boxen. Kickboxen. MMA.<br>Und ein einzelner Ringkampf.</p><a class="button" href="#anmeldung">Kämpferanmeldung <span aria-hidden="true">↗</span></a></div>
+    </div>
+    <div class="ring-scene" aria-hidden="true">
+      <div class="spotlight"></div><div class="ring">
+        <div class="canvas"><img src="/logo.webp" alt=""><span>CASTLE UNITED</span></div>
+        <div class="rope rope-one"></div><div class="rope rope-two"></div><div class="rope rope-three"></div>
+        <i class="post p-one"></i><i class="post p-two"></i><i class="post p-three"></i><i class="post p-four"></i>
+      </div>
+    </div>
+  </section>
+  <div class="facts shell"><div><span>Zeitraum</span><strong>Mitte Dezember</strong><small>Genauer Termin folgt</small></div><div><span>Austragungsort</span><strong>Wird bekannt gegeben</strong></div><div><span>Teilnahme</span><strong>Anmeldung per E-Mail</strong><small>Fight-Paarungen nach Abstimmung</small></div></div>
+  <section class="programme shell" aria-labelledby="programme-title">
+    <div class="section-heading"><p class="eyebrow">DAS PROGRAMM</p><h2 id="programme-title">Vier Disziplinen.<br>Eine Fight Night.</h2></div>
+    <div class="disciplines">
+      <div class="discipline"><h3>Boxen</h3><p>Klassisches Boxen</p></div>
+      <div class="discipline"><h3>Kickboxen</h3><p>Fäuste &amp; Kicks</p></div>
+      <div class="discipline"><h3>MMA</h3><p>Mixed Martial Arts</p></div>
+      <div class="discipline"><h3>Ringen</h3><p>Ein einzelner Kampf</p></div>
+    </div>
+  </section>
+  <section class="weights shell" aria-labelledby="weights-title">
+    <div class="section-heading"><p class="eyebrow">GEWICHTSKLASSEN</p><h2 id="weights-title">Drei<br>Gewichtsklassen.</h2><p class="muted">Die Gewichtsgrenzen werden noch festgelegt. Gib bei deiner Anmeldung dein aktuelles Gewicht an.</p></div>
+    <div class="classes"><div><h3>Klasse 1</h3><p>Gewichtsgrenze folgt</p></div><div><h3>Klasse 2</h3><p>Gewichtsgrenze folgt</p></div><div><h3>Klasse 3</h3><p>Gewichtsgrenze folgt</p></div></div>
+  </section>
+  <section class="registration" id="anmeldung" aria-labelledby="registration-title">
+    <div class="shell register-grid">
+      <div class="register-intro"><p class="eyebrow">KÄMPFERANMELDUNG</p><h2 id="registration-title">Bist du<br>bereit<span>?</span></h2><p>Stell dich vor. Wir melden uns bei dir, um die Teilnahme und eine mögliche Paarung abzustimmen.</p><p class="registration-note">Das Formular öffnet eine vorbereitete E-Mail an <a href="mailto:info@naser-solutions.de">info@naser-solutions.de</a>. Sende sie in deinem Mailprogramm ab.</p></div>
+      <form id="fighter-form">
+        <div class="form-grid">
+          <div class="field"><label for="fighter-name">Name <span>*</span></label><input id="fighter-name" name="name" autocomplete="name" maxlength="100" required></div>
+          <div class="field"><label for="fighter-email">E-Mail <span>*</span></label><input id="fighter-email" name="email" type="email" autocomplete="email" maxlength="180" required></div>
+          <div class="field"><label for="fighter-discipline">Disziplin <span>*</span></label><select id="fighter-discipline" name="discipline" required><option value="">Bitte wählen</option>Boxen</option><option>Kickboxen</option><option>MMA</option><option>Ringen</option></select></div>
+          <div class="field"><label for="fighter-weight">Aktuelles Gewicht (kg) <span>*</span></label><input id="fighter-weight" name="weight" type="number" inputmode="decimal" min="1" max="350" step="0.1" required></div>
+          <div class="field full"><label for="fighter-club">Gym / Verein <span>optional</span></label><input id="fighter-club" name="club" autocomplete="organization" maxlength="120"></div>
+          <div class="field full"><label for="fighter-experience">Training &amp; Kampferfahrung <span>*</span></label><textarea id="fighter-experience" name="experience" rows="3" maxlength="500" placeholder="Wie lange trainierst du? Hast du schon Kämpfe bestritten?" required></textarea></div>
+          <div class="field full"><label for="fighter-message">Deine Nachricht <span>optional</span></label><textarea id="fighter-message" name="message" rows="3" maxlength="500"></textarea></div>
+        </div>
+        <p class="form-note">* Pflichtfelder. Deine Angaben werden erst übermittelt, wenn du die E-Mail selbst absendest.</p>
+        <button class="button submit" type="submit">Anmeldung per E-Mail öffnen <span aria-hidden="true">↗</span></button>
+        <p class="form-status" id="form-status" role="status"></p>
+        <div class="mail-fallback" id="mail-fallback" hidden><p>Falls sich kein Mailprogramm öffnet, kopiere deine Anmeldung und sende sie an <a href="mailto:info@naser-solutions.de">info@naser-solutions.de</a>.</p><button type="button" id="copy-mail">Anmeldung kopieren</button><label for="mail-text">Dein Anmeldetext</label><textarea id="mail-text" rows="9" readonly></textarea></div>
+        <noscript><p>Bitte sende deine Anmeldung mit Name, Disziplin, Gewicht und Kampferfahrung direkt an <a href="mailto:info@naser-solutions.de">info@naser-solutions.de</a>.</p></noscript>
+      </form>
+    </div>
+  </section>
+</main>
+<footer class="shell footer"><a href="/">KASSEL UNITED</a><span>Gemeinsam. In Bewegung.</span><a href="mailto:info@naser-solutions.de">Kontakt ↗</a></footer>
+</body>
+</html>
