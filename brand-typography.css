@@ -1,0 +1,93 @@
+@font-face {
+  font-family: "Syncopate";
+  src: url("/assets/fonts/Syncopate-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  --brand-font: "Syncopate", Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3, .brand, .brand-name, .page > header h1 {
+  font-family: var(--brand-font);
+  font-weight: 700;
+}
+
+body:not(.fight-page) h1,
+body:not(.fight-page) h2,
+body:not(.fight-page) h3 {
+  letter-spacing: 0;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+body:not(.fight-page) h2,
+body:not(.fight-page) .section-title,
+body:not(.fight-page) .community .section-title,
+body:not(.fight-page) .course h2,
+body:not(.fight-page) #fight-teaser-title {
+  font-size: clamp(20px, 2.4vw, 32px) !important;
+}
+
+body:not(.fight-page) h3 {
+  font-size: clamp(15px, 1.5vw, 20px);
+  overflow-wrap: anywhere;
+}
+
+body:not(.fight-page) .hero h1 {
+  font-size: clamp(24px, 8.2cqi, 56px);
+  letter-spacing: .015em;
+  line-height: 1.25;
+}
+
+body:not(.fight-page) .hero-name {
+  white-space: normal;
+}
+
+body:not(.fight-page) .hero-frequency {
+  font-size: .64em;
+  letter-spacing: .02em;
+  line-height: 1.5;
+}
+
+body:not(.fight-page) .hero-location {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(17px, 1.8vw, 25px);
+}
+
+body:not(.fight-page) .intro h1 {
+  font-size: clamp(25px, 4.3vw, 60px);
+  overflow-wrap: anywhere;
+}
+
+body:not(.fight-page) .page > header h1 {
+  font-size: clamp(20px, 5vw, 30px);
+}
+
+body:not(.fight-page) .header .brand,
+body:not(.fight-page) .brand-name {
+  font-size: 12px;
+  letter-spacing: .04em;
+}
+
+body:not(.fight-page) .sponsor-card h2 {
+  font-size: 17px !important;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 700px) {
+  body:not(.fight-page) .hero h1 {
+    font-size: clamp(23px, 6.8vw, 44px);
+  }
+
+  body:not(.fight-page) .header .brand,
+  body:not(.fight-page) .brand-name {
+    font-size: 10px;
+  }
+
+  body:not(.fight-page) .sponsor-card h2 {
+    font-size: 12px !important;
+  }
+}
