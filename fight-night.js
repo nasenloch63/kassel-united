@@ -11,7 +11,7 @@ form.addEventListener('submit', (event) => {
   const data = new FormData(form);
   const value = (key) => String(data.get(key) || '').trim();
   const body = [
-    'Hallo Castle United,',
+    'Hallo Kassel United,',
     '',
     'ich möchte mich für die Fight Night anmelden.',
     '',
@@ -32,7 +32,7 @@ form.addEventListener('submit', (event) => {
   mailText.value = body;
   fallback.hidden = false;
   status.textContent = 'Deine E-Mail ist vorbereitet. Bitte sende sie in deinem Mailprogramm ab.';
-  const subject = 'Kämpferanmeldung – Castle United Fight Night – ' + value('discipline');
+  const subject = 'Kämpferanmeldung – Kassel United Fight Night – ' + value('discipline');
   window.location.href = 'mailto:info@naser-solutions.de?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 });
 
