@@ -6,6 +6,9 @@
   <meta name="theme-color" content="#0b0b0b">
   <title>Kassel United Fight Night · Kämpferanmeldung</title>
   <meta name="description" content="Kassel United Fight Night ist für Mitte Dezember geplant. Boxen, Kickboxen, MMA und ein einzelner Ringkampf. Melde dich als Kämpfer online an.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="geo.region" content="DE-HE">
+  <meta name="geo.placename" content="Kassel">
   <link rel="canonical" href="https://www.kassel-united.de/fight-night">
   <link rel="icon" href="/favicon.webp">
   <meta property="og:title" content="Kassel United Fight Night">
@@ -13,6 +16,13 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.kassel-united.de/fight-night">
   <meta property="og:image" content="https://www.kassel-united.de/social-logo.jpg">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:site_name" content="Kassel United">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Kassel United Fight Night · Kämpferanmeldung">
+  <meta name="twitter:description" content="Mitte Dezember in Kassel geplant: Boxen, Kickboxen, MMA und Ringen. Jetzt als Kämpfer anmelden.">
+  <meta name="twitter:image" content="https://www.kassel-united.de/social-logo.jpg">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.kassel-united.de/fight-night#webpage","url":"https://www.kassel-united.de/fight-night","name":"Kassel United Fight Night · Kämpferanmeldung","description":"Kassel United Fight Night ist für Mitte Dezember geplant. Boxen, Kickboxen, MMA und ein einzelner Ringkampf. Melde dich als Kämpfer online an.","inLanguage":"de-DE","isPartOf":{"@id":"https://www.kassel-united.de/#website"}},{"@type":"SportsEvent","@id":"https://www.kassel-united.de/fight-night#event","name":"Kassel United Fight Night","description":"Kampfsport-Event in Kassel (Boxen, Kickboxen, MMA und Ringen) in drei Gewichtsklassen. Online-Kämpferanmeldung geöffnet.","sport":["Boxen","Kickboxen","MMA","Ringen"],"eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","eventStatus":"https://schema.org/EventScheduled","startDate":"2026-12","location":{"@type":"Place","name":"Kassel","address":{"@type":"PostalAddress","addressLocality":"Kassel","addressRegion":"Hessen","addressCountry":"DE"}},"organizer":{"@type":"SportsOrganization","@id":"https://www.kassel-united.de/#organization","name":"Kassel United","url":"https://www.kassel-united.de/"},"image":"https://www.kassel-united.de/social-logo.jpg","url":"https://www.kassel-united.de/fight-night"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Startseite","item":"https://www.kassel-united.de/"},{"@type":"ListItem","position":2,"name":"Fight Night","item":"https://www.kassel-united.de/fight-night"}]}]}</script>
   <link rel="stylesheet" href="/fight-night.css">
   <script src="/registration.js" defer></script><link rel="stylesheet" href="/registration.css">
 <link rel="stylesheet" href="/brand-typography.css"></head>
@@ -21,7 +31,7 @@
 <header class="header">
   <nav class="shell nav" aria-label="Hauptnavigation">
     <a class="brand" href="/"><img src="/logo.webp" width="60" height="60" alt="">KASSEL UNITED</a>
-    <a class="back" href="/">Zur Startseite <span aria-hidden="true">↗</span></a>
+    <a class="back" href="/"><span aria-hidden="true">←</span> Startseite</a>
     <a class="nav-cta" href="#anmeldung">Als Kämpfer anmelden <span aria-hidden="true">↗</span></a>
   </nav>
 </header>
@@ -68,7 +78,7 @@
           <div class="field full"><label for="fighter-experience">Training &amp; Kampferfahrung <span>*</span></label><textarea id="fighter-experience" name="experience" rows="3" maxlength="500" placeholder="Wie lange trainierst du? Hast du schon Kämpfe bestritten?" required></textarea></div>
           <div class="field full"><label for="fighter-message">Deine Nachricht <span>optional</span></label><textarea id="fighter-message" name="message" rows="3" maxlength="500"></textarea></div>
         </div>
-        <p class="form-note">* Pflichtfelder. Die Anmeldung ist eine Anfrage; deine Teilnahme wird persönlich abgestimmt.</p><label class="check-label"><input type="checkbox" name="privacy" required>Ich habe den <a href="/anmelde-datenschutz">Datenschutzhinweis zur Anmeldung</a> gelesen.</label><label class="trap" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
+        <p class="form-note">* Pflichtfelder. Die Anmeldung ist eine Anfrage; deine Teilnahme wird persönlich abgestimmt.</p><label class="check-label"><input type="checkbox" name="privacy" required><span>Ich habe den <a href="/anmelde-datenschutz">Datenschutzhinweis zur Anmeldung</a> gelesen.</span></label><label class="trap" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
         <button class="button submit" type="submit">Anmeldung absenden <span aria-hidden="true">↗</span></button>
         <p class="form-status" id="form-status" role="status"></p>
         
@@ -77,6 +87,6 @@
     </div>
   </section>
 </main>
-<footer class="shell footer"><a href="/">KASSEL UNITED</a><a href="mailto:info@naser-solutions.de">Kontakt ↗</a></footer>
+<footer class="shell footer"><a href="/">KASSEL UNITED</a><nav class="footer-links" aria-label="Footer"><a href="https://www.naser-solutions.de/impressum">Impressum</a><a href="https://www.naser-solutions.de/datenschutz">Datenschutz</a><a href="mailto:info@naser-solutions.de">Kontakt ↗</a></nav></footer>
 </body>
 </html>
