@@ -4,7 +4,7 @@
 
 ## Sonntagslauf (wöchentlich)
 - **Wann:** Jeden Sonntag, 14:30 Uhr Treffen · 14:45 Uhr Programmstart
-- **Wo:** Orangerie Kassel (Karlsaue), Koordinaten: `51.311899, 9.497831`
+- **Wo:** Schloss an der Orangerie (An der Karlsaue 20, 34121 Kassel), Koordinaten: `51.310370, 9.500375`
 - **Strecke:** Runde durch die Karlsaue (Auedamm, Sportanlagen, Auestadion, Kunsthochschule, zurück zur Orangerie)
 - **Teilnahme:** Kostenlos, alle Altersgruppen und Lauflevels willkommen
 - **Laufgruppen:** Geführt von zwei Vorstandsmitgliedern. Je nach Teilnehmerzahl 2 oder 3 Gruppen:
