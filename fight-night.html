@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#0b0b0b">
+  <meta name="theme-color" content="#070708">
   <title>Kassel United Fight Night · Kämpferanmeldung</title>
   <meta name="description" content="Kassel United Fight Night ist für Mitte Dezember geplant. Boxen, Kickboxen, MMA und ein einzelner Ringkampf. Melde dich als Kämpfer online an.">
   <meta name="robots" content="index,follow,max-image-preview:large">
@@ -23,9 +23,11 @@
   <meta name="twitter:description" content="Mitte Dezember in Kassel geplant: Boxen, Kickboxen, MMA und Ringen. Jetzt als Kämpfer anmelden.">
   <meta name="twitter:image" content="https://www.kassel-united.de/social-logo.jpg">
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.kassel-united.de/fight-night#webpage","url":"https://www.kassel-united.de/fight-night","name":"Kassel United Fight Night · Kämpferanmeldung","description":"Kassel United Fight Night ist für Mitte Dezember geplant. Boxen, Kickboxen, MMA und ein einzelner Ringkampf. Melde dich als Kämpfer online an.","inLanguage":"de-DE","isPartOf":{"@id":"https://www.kassel-united.de/#website"}},{"@type":"SportsEvent","@id":"https://www.kassel-united.de/fight-night#event","name":"Kassel United Fight Night","description":"Kampfsport-Event in Kassel (Boxen, Kickboxen, MMA und Ringen) in drei Gewichtsklassen. Online-Kämpferanmeldung geöffnet.","sport":["Boxen","Kickboxen","MMA","Ringen"],"eventAttendanceMode":"https://schema.org/OfflineEventAttendanceMode","eventStatus":"https://schema.org/EventScheduled","startDate":"2026-12","location":{"@type":"Place","name":"Kassel","address":{"@type":"PostalAddress","addressLocality":"Kassel","addressRegion":"Hessen","addressCountry":"DE"}},"organizer":{"@type":"SportsOrganization","@id":"https://www.kassel-united.de/#organization","name":"Kassel United","url":"https://www.kassel-united.de/"},"image":"https://www.kassel-united.de/social-logo.jpg","url":"https://www.kassel-united.de/fight-night"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Startseite","item":"https://www.kassel-united.de/"},{"@type":"ListItem","position":2,"name":"Fight Night","item":"https://www.kassel-united.de/fight-night"}]}]}</script>
+  <script src="/registration.js" defer></script>
+  <link rel="stylesheet" href="/registration.css">
   <link rel="stylesheet" href="/fight-night.css">
-  <script src="/registration.js" defer></script><link rel="stylesheet" href="/registration.css">
-<link rel="stylesheet" href="/brand-typography.css"></head>
+  <link rel="stylesheet" href="/brand-typography.css">
+</head>
 <body class="fight-page">
 <a class="skip" href="#main">Zum Inhalt</a>
 <header class="header">
@@ -37,10 +39,8 @@
 </header>
 <main id="main">
   <section class="hero shell" aria-labelledby="title">
-    <div class="hero-top"><p>KASSEL UNITED</p><p>MITTE DEZEMBER 2026 GEPLANT</p></div>
     <h1 id="title">FIGHT<span>NIGHT<span class="title-dot">.</span></span></h1>
     <div class="hero-bottom">
-
       <div><a class="button" href="#anmeldung">Kämpferanmeldung <span aria-hidden="true">↗</span></a></div>
     </div>
     <div class="ring-scene" aria-hidden="true">
@@ -72,7 +72,7 @@
         <div class="form-grid">
           <div class="field"><label for="fighter-name">Name <span>*</span></label><input id="fighter-name" name="name" autocomplete="name" maxlength="100" required></div>
           <div class="field"><label for="fighter-email">E-Mail <span>*</span></label><input id="fighter-email" name="email" type="email" autocomplete="email" maxlength="180" required></div>
-          <div class="field"><label for="fighter-discipline">Disziplin <span>*</span></label><select id="fighter-discipline" name="discipline" required><option value="">Bitte wählen</option>Boxen</option><option>Kickboxen</option><option>MMA</option><option>Ringen</option></select></div>
+          <div class="field"><label for="fighter-discipline">Disziplin <span>*</span></label><select id="fighter-discipline" name="discipline" required><option value="">Bitte wählen</option><option>Boxen</option><option>Kickboxen</option><option>MMA</option><option>Ringen</option></select></div>
           <div class="field"><label for="fighter-weight">Aktuelles Gewicht (kg) <span>*</span></label><input id="fighter-weight" name="weight" type="number" inputmode="decimal" min="1" max="350" step="0.1" required></div>
           <div class="field full"><label for="fighter-club">Gym / Verein <span>optional</span></label><input id="fighter-club" name="club" autocomplete="organization" maxlength="120"></div>
           <div class="field full"><label for="fighter-experience">Training &amp; Kampferfahrung <span>*</span></label><textarea id="fighter-experience" name="experience" rows="3" maxlength="500" placeholder="Wie lange trainierst du? Hast du schon Kämpfe bestritten?" required></textarea></div>

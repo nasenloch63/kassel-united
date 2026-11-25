@@ -7,7 +7,29 @@
 }
 
 :root {
-  --brand-font: "Syncopate", Arial, Helvetica, sans-serif;
+  --brand-font: "Syncopate", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --ui-font: ui-sans-serif, -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", system-ui, Roboto, Helvetica, Arial, sans-serif;
+  --bg-pure: #070708;
+  --bg-elevated: #0e0e10;
+  --ink-primary: #f5f5f3;
+  --ink-secondary: #c7c7cc;
+  --ink-muted: #8e8e93;
+  --glass-bg: linear-gradient(155deg, rgba(255, 255, 255, 0.062) 0%, rgba(255, 255, 255, 0.016) 100%);
+  --glass-bg-subtle: linear-gradient(155deg, rgba(255, 255, 255, 0.044) 0%, rgba(255, 255, 255, 0.012) 100%);
+  --glass-bg-hover: linear-gradient(155deg, rgba(255, 255, 255, 0.095) 0%, rgba(255, 255, 255, 0.032) 100%);
+  --glass-border: rgba(255, 255, 255, 0.11);
+  --glass-border-strong: rgba(255, 255, 255, 0.22);
+  --glass-shine: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --glass-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  --ease-ui: cubic-bezier(0.22, 1, 0.36, 1);
+  font-family: var(--ui-font);
+}
+
+body {
+  font-family: var(--ui-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 h1, h2, h3, .brand, .brand-name, .page > header h1 {
@@ -18,8 +40,8 @@ h1, h2, h3, .brand, .brand-name, .page > header h1 {
 body:not(.fight-page) h1,
 body:not(.fight-page) h2,
 body:not(.fight-page) h3 {
-  letter-spacing: 0;
-  line-height: 1.35;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
   text-transform: uppercase;
 }
 
@@ -28,18 +50,18 @@ body:not(.fight-page) .section-title,
 body:not(.fight-page) .community .section-title,
 body:not(.fight-page) .course h2,
 body:not(.fight-page) #fight-teaser-title {
-  font-size: clamp(20px, 2.4vw, 32px) !important;
+  font-size: clamp(20px, 2.35vw, 31px) !important;
 }
 
 body:not(.fight-page) h3 {
-  font-size: clamp(15px, 1.5vw, 20px);
+  font-size: clamp(14px, 1.45vw, 19px);
   overflow-wrap: anywhere;
 }
 
 body:not(.fight-page) .hero h1 {
-  font-size: clamp(24px, 8.2cqi, 56px);
-  letter-spacing: .015em;
-  line-height: 1.25;
+  font-size: clamp(24px, 8.2cqi, 54px);
+  letter-spacing: 0.02em;
+  line-height: 1.2;
 }
 
 body:not(.fight-page) .hero-name {
@@ -53,33 +75,33 @@ body:not(.fight-page) .hero-frequency {
 }
 
 body:not(.fight-page) .hero-location {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--ui-font);
   font-size: clamp(17px, 1.8vw, 25px);
 }
 
 body:not(.fight-page) .intro h1 {
-  font-size: clamp(25px, 4.3vw, 60px);
+  font-size: clamp(25px, 4.1vw, 56px);
   overflow-wrap: anywhere;
 }
 
 body:not(.fight-page) .page > header h1 {
-  font-size: clamp(20px, 5vw, 30px);
+  font-size: clamp(20px, 5vw, 28px);
 }
 
 body:not(.fight-page) .header .brand,
 body:not(.fight-page) .brand-name {
   font-size: 12px;
-  letter-spacing: .04em;
+  letter-spacing: .05em;
 }
 
 body:not(.fight-page) .sponsor-card h2 {
-  font-size: 17px !important;
+  font-size: 16px !important;
   overflow-wrap: anywhere;
 }
 
 @media (max-width: 700px) {
   body:not(.fight-page) .hero h1 {
-    font-size: clamp(23px, 6.8vw, 44px);
+    font-size: clamp(23px, 6.8vw, 42px);
   }
 
   body:not(.fight-page) .header .brand,
@@ -88,6 +110,6 @@ body:not(.fight-page) .sponsor-card h2 {
   }
 
   body:not(.fight-page) .sponsor-card h2 {
-    font-size: 12px !important;
+    font-size: clamp(10px, 2.85vw, 12px) !important;
   }
 }
