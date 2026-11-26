@@ -62,10 +62,38 @@ export function emptyRegistrations() {
   return { registrations: [], draws: {}, limits: {} };
 }
 
+export const DEFAULT_DRIVE_FOLDERS = [
+  { id: '1UlVrEdhM1qK5iCZIZMcd4z1gXpsJm3lU', name: 'Kassel United' },
+  { id: '1_LlVheUzvGq-TvixiRTF7lZE8vRsjsBC', name: 'Florian Kassel-United' },
+  { id: '1FAjEHyIMXTyFR4Szk3u353kJLtc7kuUk', name: 'Kassel United UGC' }
+];
+
+// Already-imported older Drive IDs from Kassel United folder so auto-sync does not re-add duplicates
+export const SEED_KNOWN_DRIVE_IDS = [
+  '1rVMmDizl-HWdOH_nL8fVQXWU6DvM9NeB',
+  '1uzJtcXkpgE046dZf8nB6N70bnbsZl-ch',
+  '1NYkH0CgMy2LA5Otcjn21E409agM5zTy5',
+  '1bmOLQxJueyDIGCcQ62aVANjFuAA7t6xC',
+  '1f4dtqjvx0nNTuaOB5cnwN3fshuBTBPhe',
+  '1Fa-cfuwyiokdo9KJDCcmfe48hbbF1yQu',
+  '1HhHNsdgI0BQNJFDMRkmrAhY4MhTqH36w',
+  '1WotfLC5bSxWI3w7f_JWTt3i4tXpLvdce',
+  '1SNF9uje_3da-oqE-a503DBxWuY8OSVjj',
+  '1_RB_6aCRojD-AOzvsPZdQJbS6xRTPs3n',
+  '17bJg_mnH-aNmwC9Rb6XRMVoowWmkGhM8',
+  '1iegdtaNsyA-5p0mNM5oTyzixkRhHcFvV',
+  '1P1iEKcSgVUjncnLFK_4js2JMUqzx-Wqx',
+  '1-gbMe_O9WfWfeRtAbmmpwJDtGrQOcbaz',
+  '1rbo5h1Yuvie0XQOb9UWvLI8oifQgygqC',
+  '1077__0YeELYOFRBmfAGdTcefcBdDOAxa',
+  '1FF4fF4aShRwI8a15R702YJmkvwAabw8L',
+  '1QrV1EdaeOUt6ZVOYpFAWKgQqEc5KohTp'
+];
+
 export function defaultCmsState() {
   return {
-    version: 1,
-    updatedAt: '2026-11-26T00:00:00.000Z',
+    version: 2,
+    updatedAt: '2026-11-26T15:15:00.000Z',
     runBanner: {
       title: 'Diesen Sonntag dabei?',
       specialNote: '',
@@ -73,17 +101,134 @@ export function defaultCmsState() {
       raffleNote: 'Der extra Gutschein wird unter den angemeldeten Personen verlost, die tatsächlich mitlaufen. Die Gruppeneinladung ist dafür nicht erforderlich.',
       registrationOpen: true
     },
+    driveFolders: [...DEFAULT_DRIVE_FOLDERS],
+    ignoredDriveIds: [...SEED_KNOWN_DRIVE_IDS],
+    lastDriveSync: null,
     days: [
+      {
+        date: '2026-11-22',
+        title: 'Sonntagslauf · Hessenschau zu Besuch'
+      },
       {
         date: '2026-11-01',
         title: 'Sonntagslauf · Orangerie & Karlsaue'
       },
       {
         date: '2026-10-25',
-        title: 'Vergangene Läufe · Orangerie'
+        title: 'Erster Lauf · Schloss Orangerie'
       }
     ],
     media: [
+      {
+        id: 'run-2211-01',
+        driveId: '1TJjJJdS9kOVPGJSFYqBFKiEMSlN7N_zF',
+        type: 'photo',
+        day: '2026-11-22',
+        src: '/galerie/run-2211-01-1600.webp',
+        thumb: '/galerie/run-2211-01-640.webp',
+        width: 1206,
+        height: 2144,
+        caption: 'Setup & Getränke am Treffpunkt'
+      },
+      {
+        id: 'run-2211-02',
+        driveId: '1Gbrrny0as3_FyeLAv8TwDrT5hfCwnf1c',
+        type: 'photo',
+        day: '2026-11-22',
+        src: '/galerie/run-2211-02-1600.webp',
+        thumb: '/galerie/run-2211-02-640.webp',
+        width: 1600,
+        height: 2133,
+        caption: 'Sonntagstreff vor der Karlsaue'
+      },
+      {
+        id: 'run-2211-03',
+        driveId: '1cYt9eH85IkYIP_I-jW8dqZX2ociiMyW8',
+        type: 'photo',
+        day: '2026-11-22',
+        src: '/galerie/run-2211-03-1600.webp',
+        thumb: '/galerie/run-2211-03-640.webp',
+        width: 1600,
+        height: 2133,
+        caption: 'Ankommen am Schloss Orangerie'
+      },
+      {
+        id: 'run-2211-04',
+        driveId: '1jvj_41LXCdDC6z0m2AH1T3hDYxTvGrH6',
+        type: 'photo',
+        day: '2026-11-22',
+        src: '/galerie/run-2211-04-1600.webp',
+        thumb: '/galerie/run-2211-04-640.webp',
+        width: 1600,
+        height: 2133,
+        caption: 'Crew vor dem Schloss Orangerie'
+      },
+      {
+        id: 'run-2211-05',
+        driveId: '1lMwDQXckRhWhXyB8qeeIs7JxI4f5cgGy',
+        type: 'photo',
+        day: '2026-11-22',
+        src: '/galerie/run-2211-05-1600.webp',
+        thumb: '/galerie/run-2211-05-640.webp',
+        width: 1600,
+        height: 2133,
+        caption: 'Vor dem Start an der Orangerie'
+      },
+      {
+        id: 'run-2211-06',
+        driveId: '11OThsLBopkQ0x14m6aLM3oVAEYRsRJDB',
+        type: 'photo',
+        day: '2026-11-22',
+        src: '/galerie/run-2211-06-1600.webp',
+        thumb: '/galerie/run-2211-06-640.webp',
+        width: 1600,
+        height: 2133,
+        caption: 'Eindrücke vom 22. November'
+      },
+      {
+        id: 'run-2211-07',
+        driveId: '1T0a4mj6uKdP4-KtwkNaD3SAWmBRi4y4l',
+        type: 'photo',
+        day: '2026-11-22',
+        src: '/galerie/run-2211-07-1600.webp',
+        thumb: '/galerie/run-2211-07-640.webp',
+        width: 1600,
+        height: 2133,
+        caption: 'Kassel United vor der Orangerie'
+      },
+      {
+        id: 'run-2211-08',
+        driveId: '1aESAg1GfsqCSElfOD-L2X5twK2MEOin_',
+        type: 'photo',
+        day: '2026-11-22',
+        src: '/galerie/run-2211-08-1600.webp',
+        thumb: '/galerie/run-2211-08-640.webp',
+        width: 1600,
+        height: 2133,
+        caption: 'Sonntagsstimmung am Schloss Orangerie'
+      },
+      {
+        id: 'run-2211-09',
+        driveId: '1RlcduV2xxYqF9UkRuQEdxceTwe5lhJIA',
+        type: 'photo',
+        day: '2026-11-22',
+        src: '/galerie/run-2211-09-1600.webp',
+        thumb: '/galerie/run-2211-09-640.webp',
+        width: 1600,
+        height: 2133,
+        caption: 'Gemeinsam draußen in Kassel'
+      },
+      {
+        id: 'run-2211-10',
+        driveId: '1Wf7eCBb_3ht4KTRmZVWWyafHNJtUlI31',
+        type: 'photo',
+        day: '2026-11-22',
+        src: '/galerie/run-2211-10-1600.webp',
+        thumb: '/galerie/run-2211-10-640.webp',
+        width: 1600,
+        height: 2133,
+        caption: 'Community-Moment am 22. November'
+      },
       {
         id: 'run-0111-awbg',
         type: 'video',
@@ -339,13 +484,37 @@ function normalizeCms(raw) {
   const seed = defaultCmsState();
   if (!raw || typeof raw !== 'object') return seed;
   const runBanner = { ...seed.runBanner, ...(raw.runBanner || {}) };
-  const days = Array.isArray(raw.days) ? raw.days.filter(d => d && isIsoDate(d.date)) : seed.days;
+  const days = Array.isArray(raw.days) ? raw.days.filter(d => d && isIsoDate(d.date)) : [...seed.days];
+  const media = Array.isArray(raw.media) ? [...raw.media] : [...seed.media];
+  const driveFolders =
+    Array.isArray(raw.driveFolders) && raw.driveFolders.length
+      ? raw.driveFolders.filter(f => f && typeof f.id === 'string' && f.id.length >= 10)
+      : [...seed.driveFolders];
+  const ignoredDriveIds = Array.isArray(raw.ignoredDriveIds)
+    ? [...new Set(raw.ignoredDriveIds.filter(x => typeof x === 'string'))]
+    : [...seed.ignoredDriveIds];
+
+  // Auto-upgrade v1 stored CMS state once to include the newly imported 22.11.2026 run photos
+  if ((raw.version || 1) < 2) {
+    if (!days.some(d => d.date === '2026-11-22')) {
+      days.push({ date: '2026-11-22', title: 'Sonntagslauf · Hessenschau zu Besuch' });
+    }
+    const existingIds = new Set(media.map(m => m.id));
+    const newSeedItems = seed.media.filter(m => m.day === '2026-11-22' && !existingIds.has(m.id));
+    if (newSeedItems.length) media.unshift(...newSeedItems);
+    for (const id of SEED_KNOWN_DRIVE_IDS) {
+      if (!ignoredDriveIds.includes(id)) ignoredDriveIds.push(id);
+    }
+  }
+
   days.sort((a, b) => b.date.localeCompare(a.date));
-  const media = Array.isArray(raw.media) ? raw.media : seed.media;
   return {
-    version: 1,
+    version: 2,
     updatedAt: raw.updatedAt || seed.updatedAt,
     runBanner,
+    driveFolders,
+    ignoredDriveIds,
+    lastDriveSync: raw.lastDriveSync || null,
     days,
     media
   };
@@ -369,7 +538,7 @@ export async function readCmsState() {
 }
 
 export async function writeCmsState(nextState) {
-  const normalized = normalizeCms({ ...nextState, updatedAt: new Date().toISOString() });
+  const normalized = normalizeCms({ ...nextState, version: 2, updatedAt: new Date().toISOString() });
   const serialized = JSON.stringify(normalized);
   if (process.env.DATABASE_URL) {
     await ensurePgCmsTables();

@@ -131,6 +131,24 @@
             </div>
             <div id="cms-days-list" class="days-list"></div>
           </div>
+
+          <div class="panel drive-panel">
+            <div class="days-panel-head">
+              <h2>Google Drive Sync</h2>
+              <span class="muted-xs">Täglich automatisch</span>
+            </div>
+            <p class="muted-sm" id="drive-sync-meta">Synchronisiert neue Fotos aus euren Drive-Ordnern automatisch nach Datum.</p>
+            <button id="sync-drive-btn" type="button" class="pill-btn primary full-btn">Jetzt synchronisieren ↻</button>
+            <div id="drive-folders-list" class="drive-folders-list"></div>
+            <details class="url-adder">
+              <summary>+ Weiteren Drive-Ordner verknüpfen</summary>
+              <form id="add-drive-folder-form" class="drive-folder-form">
+                <input name="name" type="text" maxlength="80" placeholder="Ordnername (z. B. Lauf Fotos)" required>
+                <input name="folder" type="text" maxlength="300" placeholder="Google-Drive-Link oder Ordner-ID" required>
+                <button type="submit" class="pill-btn ghost full-btn">Ordner speichern</button>
+              </form>
+            </details>
+          </div>
         </aside>
       </div>
     </section>

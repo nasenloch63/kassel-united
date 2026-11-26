@@ -1,5 +1,11 @@
 {
   "cleanUrls": true,
+  "crons": [
+    {
+      "path": "/api/drive-sync",
+      "schedule": "0 17 * * *"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

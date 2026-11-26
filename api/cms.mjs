@@ -13,6 +13,7 @@ import {
   verifyOrigin,
   writeCmsState
 } from './_shared.mjs';
+import { runGoogleDriveSync } from './drive-sync.mjs';
 
 const DATA_URL_RE = /^data:(image\/(?:webp|jpeg|png));base64,([A-Za-z0-9+/=]+)$/;
 const SAFE_MEDIA_ID_RE = /^[a-zA-Z0-9_-]{4,64}$/;
@@ -200,11 +201,48 @@ export default async function handler(req, res) {
       const idx = cms.media.findIndex(m => m.id === id);
       if (idx === -1) fail('Medium nicht gefunden.', 404);
       const [removed] = cms.media.splice(idx, 1);
+      if (removed.driveId) {
+        cms.ignoredDriveIds = [...new Set([...(cms.ignoredDriveIds || []), removed.driveId])];
+      }
       const saved = await writeCmsState(cms);
       const blobIds = new Set([extractBlobId(removed.src), extractBlobId(removed.thumb)].filter(Boolean));
       for (const blobId of blobIds) {
         await deleteMediaBlob(blobId).catch(() => {});
       }
+      return send(200, { ok: true, activeRun: getUpcomingSundayBerlin(), ...saved });
+    }
+
+    if (action === 'sync-drive') {
+      const result = await runGoogleDriveSync(cms);
+      return send(200, {
+        ok: true,
+        added: result.added,
+        scanned: result.scanned,
+        folders: result.folders,
+        activeRun: getUpcomingSundayBerlin(),
+        ...result.saved
+      });
+    }
+
+    if (action === 'add-drive-folder') {
+      const rawInput = str(b.folder, 300);
+      const name = str(b.name, 80) || 'Google Drive Ordner';
+      const urlMatch = rawInput.match(/\/folders\/([a-zA-Z0-9_-]{10,100})/);
+      const folderId = urlMatch ? urlMatch[1] : rawInput;
+      if (!/^[a-zA-Z0-9_-]{10,100}$/.test(folderId)) {
+        fail('Bitte eine gültige Google-Drive-Ordner-URL oder Ordner-ID angeben.');
+      }
+      if (!cms.driveFolders.some(f => f.id === folderId)) {
+        cms.driveFolders.push({ id: folderId, name });
+      }
+      const saved = await writeCmsState(cms);
+      return send(200, { ok: true, activeRun: getUpcomingSundayBerlin(), ...saved });
+    }
+
+    if (action === 'remove-drive-folder') {
+      const folderId = str(b.id, 100);
+      cms.driveFolders = cms.driveFolders.filter(f => f.id !== folderId);
+      const saved = await writeCmsState(cms);
       return send(200, { ok: true, activeRun: getUpcomingSundayBerlin(), ...saved });
     }
 

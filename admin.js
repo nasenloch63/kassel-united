@@ -750,9 +750,52 @@
     }
   }
 
+  function renderDrivePanel() {
+    const list = el('drive-folders-list');
+    const meta = el('drive-sync-meta');
+    if (!list || !meta) return;
+
+    if (cmsData.lastDriveSync?.at) {
+      const when = new Date(cmsData.lastDriveSync.at).toLocaleString('de-DE');
+      meta.textContent = `Letzter Sync: ${when} · ${cmsData.lastDriveSync.scanned || 0} geprüft, ${cmsData.lastDriveSync.added || 0} neu.`;
+    } else {
+      meta.textContent = 'Läuft täglich automatisch (18:00 Uhr) und jederzeit per Klick.';
+    }
+
+    list.replaceChildren();
+    for (const f of cmsData.driveFolders || []) {
+      const row = document.createElement('div');
+      row.className = 'drive-folder-row';
+
+      const link = document.createElement('a');
+      link.className = 'drive-folder-link';
+      link.href = `https://drive.google.com/drive/folders/${encodeURIComponent(f.id)}`;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = `${f.name} ↗`;
+
+      const rm = document.createElement('button');
+      rm.type = 'button';
+      rm.className = 'icon-mini danger';
+      rm.title = 'Ordner trennen';
+      rm.setAttribute('aria-label', `${f.name} trennen`);
+      rm.textContent = '✕';
+      rm.onclick = () => {
+        if (!confirm(`Ordner „${f.name}“ aus der automatischen Synchronisierung entfernen?`)) return;
+        runAction(rm, async () => {
+          cmsData = await api('cms', 'remove-drive-folder', { id: f.id });
+        }, `Ordner „${f.name}“ entfernt.`);
+      };
+
+      row.append(link, rm);
+      list.append(row);
+    }
+  }
+
   function renderCms() {
     renderDaysSidebar();
     renderMediaGrid();
+    renderDrivePanel();
   }
 
   /* ==================== RUNS & FIGHT NIGHT ==================== */
@@ -998,6 +1041,35 @@
   el('fight-search').oninput = () => {
     if (regData) renderAll();
   };
+
+  el('sync-drive-btn')?.addEventListener('click', () => {
+    const btn = el('sync-drive-btn');
+    runAction(btn, async () => {
+      setStatus('Synchronisiere Google-Drive-Ordner …');
+      const res = await api('cms', 'sync-drive', {});
+      cmsData = res;
+      setStatus(
+        res.added > 0
+          ? `Google Drive Sync fertig: ${res.added} neue ${res.added === 1 ? 'Datei' : 'Dateien'} importiert & nach Datum sortiert · Live auf /galerie.`
+          : `Google Drive Sync fertig: Alle ${res.scanned} Dateien sind bereits auf dem neuesten Stand.`
+      );
+    });
+  });
+
+  el('add-drive-folder-form')?.addEventListener('submit', e => {
+    e.preventDefault();
+    const f = e.currentTarget;
+    const fd = Object.fromEntries(new FormData(f));
+    const btn = f.querySelector('button[type="submit"]');
+    runAction(
+      btn,
+      async () => {
+        cmsData = await api('cms', 'add-drive-folder', { name: fd.name, folder: fd.folder });
+        f.reset();
+      },
+      'Google-Drive-Ordner verknüpft · Klicke auf „Jetzt synchronisieren ↻“.'
+    );
+  });
 
   setTab('cms');
   refreshAll().catch(e => {
