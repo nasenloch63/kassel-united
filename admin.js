@@ -6,6 +6,7 @@
   let cmsData = null;
   let activeTab = 'cms'; // 'cms' | 'runs' | 'fighters'
   let cmsFilter = 'all'; // 'all' | 'unassigned' | 'YYYY-MM-DD'
+  let uploadDayMode = 'auto'; // 'auto' | '' | 'YYYY-MM-DD'
   let selectedRun = '';
   let selectedIds = new Set();
   let draggedIds = [];
@@ -135,8 +136,14 @@
     return cmsData.media.filter(m => m.day === dayKey).length;
   }
 
-  function buildDaySelectOptions(selectEl, currentVal, includeUnassigned = true, compact = false) {
+  function buildDaySelectOptions(selectEl, currentVal, includeUnassigned = true, compact = false, includeAuto = false) {
     selectEl.replaceChildren();
+    if (includeAuto) {
+      const opt = document.createElement('option');
+      opt.value = 'auto';
+      opt.textContent = 'Automatisch (Erstelldatum)';
+      selectEl.append(opt);
+    }
     if (includeUnassigned) {
       const opt = document.createElement('option');
       opt.value = '';
@@ -149,7 +156,149 @@
       opt.textContent = !compact && d.title ? `${formatShortDate(d.date)} · ${d.title}` : formatShortDate(d.date);
       selectEl.append(opt);
     }
-    selectEl.value = currentVal || '';
+    const valid = [...selectEl.options].some(o => o.value === currentVal);
+    selectEl.value = valid ? currentVal : includeAuto ? 'auto' : '';
+  }
+
+  function isValidYmd(y, m, d) {
+    if (y < 2015 || y > 2035 || m < 1 || m > 12 || d < 1 || d > 31) return false;
+    const dt = new Date(Date.UTC(y, m - 1, d));
+    return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
+  }
+
+  function toIsoYmd(y, m, d) {
+    return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+  }
+
+  function parseExifDateString(str) {
+    const m = str.match(/^(\d{4}):(\d{2}):(\d{2})/);
+    if (!m) return null;
+    const y = Number(m[1]), mo = Number(m[2]), d = Number(m[3]);
+    return isValidYmd(y, mo, d) ? toIsoYmd(y, mo, d) : null;
+  }
+
+  function readAscii(view, start, len) {
+    let out = '';
+    const end = Math.min(view.byteLength, start + len);
+    for (let i = start; i < end; i++) {
+      const c = view.getUint8(i);
+      if (c === 0) break;
+      out += String.fromCharCode(c);
+    }
+    return out;
+  }
+
+  function extractDateFromTiff(view, tiffStart) {
+    if (tiffStart + 8 > view.byteLength) return null;
+    const byteOrder = view.getUint16(tiffStart, false);
+    const little = byteOrder === 0x4949;
+    if (!little && byteOrder !== 0x4d4d) return null;
+    if (view.getUint16(tiffStart + 2, little) !== 0x002a) return null;
+    const ifd0Offset = view.getUint32(tiffStart + 4, little);
+
+    const readIfd = (offset, targetTags) => {
+      const pos = tiffStart + offset;
+      if (pos + 2 > view.byteLength) return {};
+      const entries = view.getUint16(pos, little);
+      const found = {};
+      for (let i = 0; i < entries; i++) {
+        const ePos = pos + 2 + i * 12;
+        if (ePos + 12 > view.byteLength) break;
+        const tag = view.getUint16(ePos, little);
+        if (!targetTags.includes(tag)) continue;
+        const type = view.getUint16(ePos + 2, little);
+        const count = view.getUint32(ePos + 4, little);
+        if (type === 2 && count >= 10) {
+          const valOff = count <= 4 ? ePos + 8 : tiffStart + view.getUint32(ePos + 8, little);
+          found[tag] = readAscii(view, valOff, Math.min(count, 32));
+        } else if (type === 4 && count === 1) {
+          found[tag] = view.getUint32(ePos + 8, little);
+        }
+      }
+      return found;
+    };
+
+    const ifd0 = readIfd(ifd0Offset, [0x0132, 0x8769]);
+    if (typeof ifd0[0x8769] === 'number') {
+      const exif = readIfd(ifd0[0x8769], [0x9003, 0x9004]);
+      const dOrig = parseExifDateString(exif[0x9003] || '');
+      if (dOrig) return dOrig;
+      const dDig = parseExifDateString(exif[0x9004] || '');
+      if (dDig) return dDig;
+    }
+    return parseExifDateString(ifd0[0x0132] || '');
+  }
+
+  async function extractExifDate(file) {
+    try {
+      const buf = await file.slice(0, 131072).arrayBuffer();
+      const view = new DataView(buf);
+      if (view.byteLength < 12) return null;
+
+      // JPEG: SOI 0xFFD8
+      if (view.getUint16(0, false) === 0xffd8) {
+        let off = 2;
+        while (off + 4 < view.byteLength) {
+          if (view.getUint8(off) !== 0xff) break;
+          const marker = view.getUint8(off + 1);
+          if (marker === 0xda || marker === 0xd9) break;
+          const size = view.getUint16(off + 2, false);
+          if (size < 2) break;
+          if (marker === 0xe1 && readAscii(view, off + 4, 4) === 'Exif') {
+            return extractDateFromTiff(view, off + 10);
+          }
+          off += 2 + size;
+        }
+      }
+
+      // WebP: RIFF....WEBP with EXIF chunk
+      if (readAscii(view, 0, 4) === 'RIFF' && readAscii(view, 8, 4) === 'WEBP') {
+        let off = 12;
+        while (off + 8 < view.byteLength) {
+          const chunkId = readAscii(view, off, 4);
+          const chunkSize = view.getUint32(off + 4, true);
+          if (chunkId === 'EXIF') {
+            const payloadStart = off + 8;
+            const hasHeader = readAscii(view, payloadStart, 4) === 'Exif';
+            return extractDateFromTiff(view, hasHeader ? payloadStart + 6 : payloadStart);
+          }
+          off += 8 + chunkSize + (chunkSize % 2);
+        }
+      }
+    } catch {}
+    return null;
+  }
+
+  function extractDateFromFilename(name) {
+    const m = (name || '').match(/(?:^|[^0-9])(20[1-3]\d)[-_]?([01]\d)[-_]?([0-3]\d)(?:[^0-9]|$)/);
+    if (!m) return null;
+    const y = Number(m[1]), mo = Number(m[2]), d = Number(m[3]);
+    return isValidYmd(y, mo, d) ? toIsoYmd(y, mo, d) : null;
+  }
+
+  function formatBerlinIsoDate(ms) {
+    const parts = Object.fromEntries(
+      new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Europe/Berlin',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      })
+        .formatToParts(new Date(ms))
+        .map(p => [p.type, p.value])
+    );
+    return `${parts.year}-${parts.month}-${parts.day}`;
+  }
+
+  async function detectFileCreationDate(file) {
+    const exifDate = await extractExifDate(file);
+    if (exifDate) return { date: exifDate, source: 'EXIF' };
+    const nameDate = extractDateFromFilename(file.name);
+    if (nameDate) return { date: nameDate, source: 'Dateiname' };
+    if (file.lastModified) {
+      return { date: formatBerlinIsoDate(file.lastModified), source: 'Dateidatum' };
+    }
+    return { date: formatBerlinIsoDate(Date.now()), source: 'Heute' };
   }
 
   async function compressImageToWebP(file, maxEdge, quality) {
@@ -176,10 +325,20 @@
       setStatus('Bitte Bilddateien (JPG, PNG oder WebP) auswählen oder hineinziehen.');
       return;
     }
-    const dayLabel = targetDay ? formatShortDate(targetDay) : 'Ohne Datum';
+    const isAuto = targetDay === 'auto';
+    const dayCounts = new Map();
     let uploaded = 0;
+
     for (const file of imageFiles) {
-      setStatus(`Optimiere & lade hoch (${uploaded + 1}/${imageFiles.length}) → ${dayLabel} …`);
+      let resolvedDay = targetDay;
+      let sourceNote = '';
+      if (isAuto) {
+        const detected = await detectFileCreationDate(file);
+        resolvedDay = detected.date;
+        sourceNote = ` (${detected.source})`;
+      }
+      const dayLabel = resolvedDay ? formatShortDate(resolvedDay) : 'Ohne Datum';
+      setStatus(`Optimiere & lade hoch (${uploaded + 1}/${imageFiles.length}) → ${dayLabel}${sourceNote} …`);
       const full = await compressImageToWebP(file, 1400, 0.82);
       const thumb = await compressImageToWebP(file, 520, 0.76);
       const cleanName = file.name.replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' ').trim();
@@ -189,13 +348,20 @@
         width: full.width,
         height: full.height,
         caption: cleanName || 'Kassel United · Sonntagslauf',
-        day: targetDay
+        day: resolvedDay
       });
       cmsData = res;
+      dayCounts.set(dayLabel, (dayCounts.get(dayLabel) || 0) + 1);
       uploaded++;
       renderAll();
     }
-    setStatus(`${uploaded} ${uploaded === 1 ? 'Bild' : 'Bilder'} gespeichert unter ${dayLabel} · Live auf /galerie.`);
+
+    const summary = [...dayCounts.entries()].map(([lbl, n]) => (dayCounts.size > 1 ? `${lbl} (${n}×)` : lbl)).join(', ');
+    setStatus(
+      isAuto
+        ? `${uploaded} ${uploaded === 1 ? 'Bild' : 'Bilder'} automatisch nach Erstelldatum eingeordnet: ${summary} · Live auf /galerie.`
+        : `${uploaded} ${uploaded === 1 ? 'Bild' : 'Bilder'} gespeichert unter ${summary} · Live auf /galerie.`
+    );
   }
 
   async function assignIdsToDay(ids, targetDay) {
@@ -240,13 +406,9 @@
     const list = el('cms-days-list');
     list.replaceChildren();
 
-    // Update upload select target
+    // Update upload select target (defaults to auto creation-date detection)
     const uploadSel = el('upload-day-select');
-    const preferredUploadDay =
-      cmsFilter !== 'all' && cmsFilter !== 'unassigned'
-        ? cmsFilter
-        : uploadSel.value || cmsData.days[0]?.date || '';
-    buildDaySelectOptions(uploadSel, preferredUploadDay, true);
+    buildDaySelectOptions(uploadSel, uploadDayMode, true, false, true);
 
     // 1. "All Days" filter row
     const allBox = document.createElement('div');
@@ -721,6 +883,10 @@
     );
   };
 
+  el('upload-day-select').onchange = e => {
+    uploadDayMode = e.target.value;
+  };
+
   el('file-input').onchange = e => {
     const files = e.target.files;
     if (!files?.length) return;
@@ -752,7 +918,11 @@
     e.preventDefault();
     const f = e.currentTarget;
     const fd = Object.fromEntries(new FormData(f));
-    const targetDay = el('upload-day-select').value;
+    const rawTarget = el('upload-day-select').value;
+    const targetDay =
+      rawTarget === 'auto'
+        ? extractDateFromFilename(fd.src) || cmsData.days[0]?.date || ''
+        : rawTarget;
     const btn = f.querySelector('button[type="submit"]');
     runAction(
       btn,

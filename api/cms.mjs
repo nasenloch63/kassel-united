@@ -229,7 +229,9 @@ export default async function handler(req, res) {
       }
 
       if (day && !cms.days.some(d => d.date === day)) {
-        cms.days.push({ date: day, title: '' });
+        const [y, m, d] = day.split('-').map(Number);
+        const isSunday = new Date(Date.UTC(y, m - 1, d)).getUTCDay() === 0;
+        cms.days.push({ date: day, title: isSunday ? 'Sonntagslauf · Schloss Orangerie' : '' });
       }
 
       const item = {
