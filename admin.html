@@ -1,3 +1,241 @@
-<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Admin · Kassel United</title><link rel="stylesheet" href="/admin.css"><script src="/admin.js" defer></script></head><body><header><a href="/">KASSEL UNITED <small>ADMIN</small></a><button id="logout" hidden>Abmelden</button></header><main>
-<section id="login-panel" class="login panel"><p class="eyebrow">COMMUNITY MANAGEMENT</p><h1>Willkommen zurück.</h1><p>Dein Überblick über Läufe und Fight Night.</p><form id="login"><label>E-Mail<input name="email" type="email" autocomplete="username" required></label><label>Passwort<input name="password" type="password" autocomplete="current-password" required></label><button type="submit" class="primary">Anmelden →</button></form></section>
-<p id="status" role="status"></p><section id="dashboard" hidden><p class="eyebrow">KASSEL UNITED / ORGANISATION</p><h1>Deine Community.<br>Alles im Blick.</h1><div class="stats"><article class="panel"><small>Anmeldungen · 22.11.</small><strong id="run-count">0</strong></article><article class="panel"><small>Mitgelaufen · bestätigt</small><strong id="attended-count">0</strong></article><article class="panel"><small>Fight Night · Dezember</small><strong id="fight-count">0</strong></article></div><div class="toolbar"><div role="group" aria-label="Anmeldungen auswählen"><button id="runs" aria-pressed="true">Sonntagslauf</button><button id="fighters" aria-pressed="false">Fight Night</button></div><button id="refresh">Aktualisieren ↻</button></div><section id="draw-panel" class="panel draw"><div><p class="eyebrow">EXTRA GUTSCHEIN</p><h2>Mitlaufen. Gewinnen.</h2><p>Bestätige nach dem Lauf, wer mitgelaufen ist. Nur diese Personen kommen in den Lostopf. Die Ziehung wird gespeichert und lässt sich nicht wiederholen.</p><p id="winner" role="status"></p></div><button id="draw" class="primary">Gewinner auslosen</button></section><label class="search">Anmeldungen durchsuchen<input id="search" type="search" placeholder="Name, Kontakt oder Disziplin"></label><div class="table-wrap panel"><table><thead id="head"></thead><tbody id="rows"></tbody></table><p id="empty" hidden>Noch keine Anmeldungen.</p></div></section></main></body></html>
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#070708">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Admin · Kassel United</title>
+  <link rel="icon" href="/favicon.webp">
+  <link rel="stylesheet" href="/brand-typography.css">
+  <link rel="stylesheet" href="/admin.css">
+  <script src="/admin.js" defer></script>
+</head>
+<body class="admin-page">
+<header class="admin-header">
+  <div class="admin-header-inner">
+    <a class="admin-brand" href="/admin">
+      <img src="/logo.webp" width="44" height="44" alt="">
+      <span>KASSEL UNITED <small>CMS</small></span>
+    </a>
+    <div class="admin-header-actions">
+      <a class="pill-btn ghost" href="/galerie" target="_blank" rel="noopener noreferrer">Galerie ↗</a>
+      <a class="pill-btn ghost" href="/" target="_blank" rel="noopener noreferrer">Website ↗</a>
+      <button id="logout" class="pill-btn ghost" type="button" hidden>Abmelden</button>
+    </div>
+  </div>
+</header>
+
+<main class="admin-main">
+  <section id="login-panel" class="login panel">
+    <h1>Admin Login.</h1>
+    <p>Verwalte Galerie-Tage, Fotos, das Gewinnspiel-Formular und Anmeldungen.</p>
+    <form id="login">
+      <label>E-Mail
+        <input name="email" type="email" autocomplete="username" required>
+      </label>
+      <label>Passwort
+        <input name="password" type="password" autocomplete="current-password" required>
+      </label>
+      <button type="submit" class="pill-btn primary full-btn">Anmelden →</button>
+    </form>
+  </section>
+
+  <p id="status" class="status-banner" role="status" aria-live="polite"></p>
+
+  <section id="dashboard" hidden>
+    <div class="dash-top">
+      <div>
+        <h1>Community CMS.</h1>
+      </div>
+      <div class="dash-controls">
+        <div class="tab-capsule" role="tablist" aria-label="Bereiche">
+          <button id="tab-cms" type="button" role="tab" aria-selected="true">Galerie &amp; Tage <span id="cms-tab-count">0</span></button>
+          <button id="tab-runs" type="button" role="tab" aria-selected="false">Sonntagslauf <span id="run-tab-count">0</span></button>
+          <button id="tab-fighters" type="button" role="tab" aria-selected="false">Fight Night <span id="fight-tab-count">0</span></button>
+        </div>
+        <button id="refresh" class="pill-btn ghost" type="button">Aktualisieren ↻</button>
+      </div>
+    </div>
+
+    <!-- TAB 1: GALERIE & TAGE CMS -->
+    <section id="view-cms" class="cms-view" aria-label="Galerie-CMS">
+      <div class="cms-workspace">
+        <!-- LEFT COLUMN: MEDIA LIBRARY & UPLOAD -->
+        <div class="cms-main">
+          <div class="panel upload-panel" id="upload-dropzone">
+            <div class="upload-row">
+              <div>
+                <h2>Bilder hinzufügen</h2>
+                <p class="muted-sm">Ziehe Fotos hier rein oder direkt rechts auf einen Tag. Bilder werden automatisch als WebP optimiert.</p>
+              </div>
+              <div class="upload-actions">
+                <select id="upload-day-select" aria-label="Ziel-Datum für Upload"></select>
+                <label class="pill-btn primary upload-btn">
+                  Fotos auswählen +
+                  <input id="file-input" type="file" accept="image/jpeg,image/png,image/webp,image/*" multiple hidden>
+                </label>
+              </div>
+            </div>
+            <details class="url-adder">
+              <summary>Oder vorhandene Datei / Video-URL verknüpfen</summary>
+              <form id="add-url-form" class="url-form">
+                <select name="type" aria-label="Medientyp">
+                  <option value="photo">Foto</option>
+                  <option value="video">Video (MP4)</option>
+                </select>
+                <input name="src" type="text" placeholder="/galerie/datei.mp4 oder https://…" required>
+                <input name="poster" type="text" placeholder="Poster / Vorschau-URL (optional)">
+                <input name="caption" type="text" placeholder="Beschreibung">
+                <button type="submit" class="pill-btn ghost">Verknüpfen</button>
+              </form>
+            </details>
+          </div>
+
+          <div class="cms-filter-header">
+            <div class="cms-filter-title">
+              <strong id="cms-active-label">Alle Medien</strong>
+              <span id="cms-selection-hint" class="muted-sm">Karten nach rechts auf ein Datum ziehen</span>
+            </div>
+            <div class="cms-filter-tools">
+              <input id="cms-search" type="search" placeholder="Beschreibung filtern…">
+              <button id="cms-select-all" type="button" class="pill-btn ghost sm">Alle wählen</button>
+              <button id="cms-clear-sel" type="button" class="pill-btn ghost sm" hidden>Auswahl aufheben</button>
+            </div>
+          </div>
+
+          <div id="cms-media-grid" class="cms-media-grid"></div>
+          <p id="cms-media-empty" class="panel empty-box" hidden>In dieser Ansicht sind noch keine Medien.</p>
+        </div>
+
+        <!-- RIGHT COLUMN: STICKY DATE BUCKETS (DRAG & DROP TARGETS) -->
+        <aside class="cms-sidebar" aria-label="Lauftage und Datumszuordnung">
+          <div class="panel new-day-card">
+            <h2>Neuer Tag</h2>
+            <p class="muted-sm">Lege ein Laufdatum an und ziehe Medien von links direkt hier hinein.</p>
+            <form id="add-day-form" class="new-day-form">
+              <label>Datum
+                <input id="new-day-date" name="date" type="date" required>
+              </label>
+              <label>Titel / Anlass (optional)
+                <input id="new-day-title" name="title" type="text" maxlength="90" placeholder="z. B. Hessenschau zu Besuch">
+              </label>
+              <button type="submit" class="pill-btn primary full-btn">+ Tag anlegen</button>
+            </form>
+          </div>
+
+          <div class="panel days-panel">
+            <div class="days-panel-head">
+              <h2>Tage · Drag &amp; Drop</h2>
+              <span class="muted-xs">Ziel für Medien &amp; Dateien</span>
+            </div>
+            <div id="cms-days-list" class="days-list"></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- TAB 2: SONNTAGSLAUF, ANMELDEFORMULAR & GEWINNSPIEL -->
+    <section id="view-runs" hidden aria-label="Sonntagslauf und Gewinnspiel">
+      <div class="stats">
+        <article class="panel stat-card">
+          <div class="stat-head">
+            <small>Anmeldungen · Lauf</small>
+            <select id="run-selector" aria-label="Sonntagslauf auswählen"></select>
+          </div>
+          <strong id="run-count">0</strong>
+        </article>
+        <article class="panel stat-card">
+          <small>Mitgelaufen · bestätigt</small>
+          <strong id="attended-count">0</strong>
+        </article>
+        <article class="panel stat-card">
+          <small>Fight Night · Gesamt</small>
+          <strong id="fight-count">0</strong>
+        </article>
+      </div>
+
+      <section class="panel banner-cms">
+        <div class="banner-cms-head">
+          <div>
+            <h2>Anmeldeformular (Startseite)</h2>
+            <p class="muted-sm">Das nächste Sonntagsdatum wird automatisch berechnet (<span id="active-run-badge"></span>). Optional kannst du einen Special-Hinweis eintragen oder das Formular pausieren.</p>
+          </div>
+        </div>
+        <form id="banner-form" class="banner-form">
+          <label>Überschrift
+            <input id="banner-title" name="title" maxlength="80" required>
+          </label>
+          <label>Special-Hinweis für diesen Sonntag (optional)
+            <input id="banner-special" name="specialNote" maxlength="120" placeholder="Leer lassen für normalen Sonntag · z. B. Nikolaus-Special">
+          </label>
+          <label class="span-2">Beschreibungstext
+            <textarea id="banner-desc" name="description" rows="2" maxlength="320" required></textarea>
+          </label>
+          <label class="span-2">Gutschein-Hinweis (unten)
+            <textarea id="banner-raffle" name="raffleNote" rows="2" maxlength="320" required></textarea>
+          </label>
+          <div class="banner-footer span-2">
+            <label class="inline-check">
+              <input id="banner-open" name="registrationOpen" type="checkbox" checked>
+              <span>Anmeldung für den kommenden Sonntag geöffnet</span>
+            </label>
+            <button type="submit" class="pill-btn primary">Formular live speichern</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="draw-panel" class="panel draw">
+        <div>
+          <h2>Gewinnspiel-Auslosung</h2>
+          <p class="muted-sm">Bestätige nach dem Lauf, wer mitgelaufen ist. Nur bestätigte Personen kommen für den ausgewählten Sonntag in den Lostopf.</p>
+          <p id="winner" role="status"></p>
+        </div>
+        <button id="draw" class="pill-btn primary" type="button">Gewinner auslosen</button>
+      </section>
+
+      <div class="table-toolbar">
+        <input id="run-search" type="search" placeholder="Name, E-Mail, Instagram oder Telefonnummer suchen…">
+      </div>
+      <div class="table-wrap panel">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Kontakt</th>
+              <th>WhatsApp</th>
+              <th>Gruppe</th>
+              <th>Mitgelaufen</th>
+            </tr>
+          </thead>
+          <tbody id="run-rows"></tbody>
+        </table>
+        <p id="run-empty" class="empty-inline" hidden>Noch keine Anmeldungen für diesen Sonntag.</p>
+      </div>
+    </section>
+
+    <!-- TAB 3: FIGHT NIGHT -->
+    <section id="view-fighters" hidden aria-label="Fight Night Anmeldungen">
+      <div class="table-toolbar">
+        <input id="fight-search" type="search" placeholder="Name, E-Mail, Disziplin oder Gym durchsuchen…">
+      </div>
+      <div class="table-wrap panel">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>E-Mail</th>
+              <th>Disziplin / Gewicht</th>
+              <th>Gym</th>
+              <th>Erfahrung / Nachricht</th>
+            </tr>
+          </thead>
+          <tbody id="fight-rows"></tbody>
+        </table>
+        <p id="fight-empty" class="empty-inline" hidden>Noch keine Kämpferanmeldungen.</p>
+      </div>
+    </section>
+  </section>
+</main>
+</body>
+</html>

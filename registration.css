@@ -36,6 +36,12 @@
   margin: 0 0 16px;
 }
 
+#run-meta {
+  color: #dcdce0;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
 .run-fields {
   display: grid;
   grid-template-columns: 1fr 1fr;
